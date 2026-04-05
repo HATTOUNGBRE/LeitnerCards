@@ -6,6 +6,7 @@ export type UpdateCardCommand = {
   cardId: string;
   question: string;
   answer: string;
+  tag?: string;
 };
 
 export class UpdateCardUseCase {
@@ -21,6 +22,7 @@ export class UpdateCardUseCase {
     const updatedCard = existingCard.updateContent({
       question: command.question,
       answer: command.answer,
+      tag: command.tag,
     });
 
     await this.cardRepository.save(updatedCard);

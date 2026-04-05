@@ -6,6 +6,7 @@ export type CreateCardCommand = {
   ownerId: string;
   question: string;
   answer: string;
+  tag?: string;
 };
 
 export class CreateCardUseCase {
@@ -20,6 +21,7 @@ export class CreateCardUseCase {
       ownerId: command.ownerId,
       question: command.question,
       answer: command.answer,
+      tag: command.tag,
     });
 
     await this.cardRepository.save(card);

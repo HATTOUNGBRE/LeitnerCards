@@ -40,6 +40,7 @@ export class CardsController {
       cardId: id,
       question: dto.question,
       answer: dto.answer,
+      tag: dto.tag,
     });
   }
 
