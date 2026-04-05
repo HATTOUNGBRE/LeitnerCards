@@ -19,3 +19,5 @@ Etat actuel :
 - use case `ListCardsByOwnerUseCase`
 - use case `UpdateCardUseCase`
 - use case `DeleteCardUseCase`
+- repository en memoire `InMemoryCardRepository`
+- generateur d'identifiant `InMemoryCardIdGenerator`
