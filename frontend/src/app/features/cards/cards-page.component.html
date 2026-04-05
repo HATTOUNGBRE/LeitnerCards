@@ -27,33 +27,77 @@
     </form>
   </section>
 
-  <section class="panel">
-    <div class="panel-header">
-      <h2>Your cards</h2>
-      <span class="count">{{ cards().length }}</span>
-    </div>
+  <div class="content-grid">
+    <section class="panel">
+      <div class="panel-header">
+        <h2>Your cards</h2>
+        <span class="count">{{ cards().length }}</span>
+      </div>
 
-    @if (errorMessage()) {
-      <p class="feedback error">{{ errorMessage() }}</p>
-    }
+      @if (errorMessage()) {
+        <p class="feedback error">{{ errorMessage() }}</p>
+      }
 
-    @if (isLoading()) {
-      <p class="feedback">Loading cards...</p>
-    } @else if (cards().length === 0) {
-      <p class="feedback">No cards yet. Create your first one.</p>
-    } @else {
-      <ul class="cards-list">
-        @for (card of cards(); track card.id) {
-          <li class="card-item">
-            <div class="card-meta">
-              <span>Category {{ card.category }}</span>
-              <span>{{ card.createdAt | date: 'mediumDate' }}</span>
-            </div>
-            <h3>{{ card.question }}</h3>
-            <p>{{ card.answer }}</p>
-          </li>
-        }
-      </ul>
-    }
-  </section>
+      @if (isLoading()) {
+        <p class="feedback">Loading cards...</p>
+      } @else if (cards().length === 0) {
+        <p class="feedback">No cards yet. Create your first one.</p>
+      } @else {
+        <ul class="cards-list">
+          @for (card of cards(); track card.id) {
+            <li class="card-item" [class.selected]="selectedCard()?.id === card.id">
+              <button type="button" class="card-button" (click)="selectCard(card.id)">
+                <div class="card-meta">
+                  <span>Category {{ card.category }}</span>
+                  <span>{{ card.createdAt | date: 'mediumDate' }}</span>
+                </div>
+                <h3>{{ card.question }}</h3>
+                <p>{{ card.answer }}</p>
+              </button>
+            </li>
+          }
+        </ul>
+      }
+    </section>
+
+    <section class="panel">
+      <div class="panel-header">
+        <h2>Card details</h2>
+      </div>
+
+      @if (detailErrorMessage()) {
+        <p class="feedback error">{{ detailErrorMessage() }}</p>
+      }
+
+      @if (!selectedCard()) {
+        <p class="feedback">Select a card to review, edit or delete it.</p>
+      } @else {
+        <form [formGroup]="editCardForm" class="card-form" (ngSubmit)="saveSelectedCard()">
+          <label>
+            <span>Question</span>
+            <textarea rows="4" formControlName="question"></textarea>
+          </label>
+
+          <label>
+            <span>Answer</span>
+            <textarea rows="5" formControlName="answer"></textarea>
+          </label>
+
+          <div class="actions">
+            <button type="submit" [disabled]="isUpdating()">
+              {{ isUpdating() ? 'Saving...' : 'Save changes' }}
+            </button>
+            <button
+              type="button"
+              class="danger"
+              [disabled]="isDeleting()"
+              (click)="deleteSelectedCard()"
+            >
+              {{ isDeleting() ? 'Deleting...' : 'Delete card' }}
+            </button>
+          </div>
+        </form>
+      }
+    </section>
+  </div>
 </section>

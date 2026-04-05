@@ -16,6 +16,11 @@ export type CreateCardPayload = {
   answer: string;
 };
 
+export type UpdateCardPayload = {
+  question: string;
+  answer: string;
+};
+
 @Injectable({
   providedIn: 'root',
 })
@@ -30,5 +35,17 @@ export class CardsApiService {
 
   create(payload: CreateCardPayload) {
     return this.httpClient.post<CardViewModel>(this.baseUrl, payload);
+  }
+
+  findById(cardId: string) {
+    return this.httpClient.get<CardViewModel>(`${this.baseUrl}/${cardId}`);
+  }
+
+  update(cardId: string, payload: UpdateCardPayload) {
+    return this.httpClient.patch<CardViewModel>(`${this.baseUrl}/${cardId}`, payload);
+  }
+
+  delete(cardId: string) {
+    return this.httpClient.delete<void>(`${this.baseUrl}/${cardId}`);
   }
 }

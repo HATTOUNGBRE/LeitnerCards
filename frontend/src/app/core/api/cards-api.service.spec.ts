@@ -57,4 +57,54 @@ describe('CardsApiService', () => {
       createdAt: '2026-04-05T10:00:00.000Z',
     });
   });
+
+  it('requests a card by id', () => {
+    service.findById('card-1').subscribe();
+
+    const request = httpTestingController.expectOne('http://localhost:3000/cards/card-1');
+
+    expect(request.request.method).toBe('GET');
+    request.flush({
+      id: 'card-1',
+      ownerId: 'user-1',
+      question: 'Question',
+      answer: 'Answer',
+      category: 1,
+      createdAt: '2026-04-05T10:00:00.000Z',
+    });
+  });
+
+  it('updates a card', () => {
+    service
+      .update('card-1', {
+        question: 'Updated question',
+        answer: 'Updated answer',
+      })
+      .subscribe();
+
+    const request = httpTestingController.expectOne('http://localhost:3000/cards/card-1');
+
+    expect(request.request.method).toBe('PATCH');
+    expect(request.request.body).toEqual({
+      question: 'Updated question',
+      answer: 'Updated answer',
+    });
+    request.flush({
+      id: 'card-1',
+      ownerId: 'user-1',
+      question: 'Updated question',
+      answer: 'Updated answer',
+      category: 1,
+      createdAt: '2026-04-05T10:00:00.000Z',
+    });
+  });
+
+  it('deletes a card', () => {
+    service.delete('card-1').subscribe();
+
+    const request = httpTestingController.expectOne('http://localhost:3000/cards/card-1');
+
+    expect(request.request.method).toBe('DELETE');
+    request.flush(null);
+  });
 });

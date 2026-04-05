@@ -5,6 +5,8 @@ Interface Angular de LeitnerCards.
 L'interface contient maintenant un ecran `cards` qui permet :
 - de lister les fiches d'un utilisateur simule
 - de creer une nouvelle fiche depuis un formulaire
+- de consulter le detail d'une fiche
+- de modifier ou supprimer une fiche selectionnee
 
 Le perimetre de ce push reste limite a `cards`.
 
