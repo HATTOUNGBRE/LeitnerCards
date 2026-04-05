@@ -82,6 +82,39 @@ button:disabled {
   gap: 1rem;
 }
 
+.filter-actions {
+  display: flex;
+  gap: 1rem;
+  align-items: end;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.filter-actions label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-width: 200px;
+}
+
+.filter-actions input {
+  border: 1px solid rgba(78, 61, 46, 0.18);
+  border-radius: 16px;
+  padding: 0.5rem 0.75rem;
+  font: inherit;
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.filter-info {
+  background: rgba(178, 91, 60, 0.08);
+  border: 1px solid rgba(178, 91, 60, 0.2);
+  border-radius: 12px;
+  padding: 0.75rem 1rem;
+  color: #7b3d28;
+  font-weight: 500;
+  margin-bottom: 1rem;
+}
+
 .count {
   min-width: 2rem;
   min-height: 2rem;
@@ -134,6 +167,43 @@ button:disabled {
   display: flex;
   gap: 0.75rem;
   flex-wrap: wrap;
+}
+
+.card-status {
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(78, 61, 46, 0.12);
+  border-radius: 12px;
+  padding: 1rem;
+  margin: 1rem 0;
+}
+
+.card-status p {
+  margin: 0.25rem 0;
+  font-size: 0.875rem;
+}
+
+.review-section {
+  margin: 1rem 0;
+}
+
+.review-section h4 {
+  margin: 0 0 0.75rem 0;
+  color: #4e3d2e;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.review-buttons {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.correct {
+  background: linear-gradient(135deg, #4caf50 0%, #66bb6a 100%);
+}
+
+.incorrect {
+  background: linear-gradient(135deg, #f44336 0%, #ef5350 100%);
 }
 
 .danger {
