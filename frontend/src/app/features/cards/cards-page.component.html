@@ -123,6 +123,28 @@
             <p>Status: {{ selectedCard()?.learned ? 'Learned' : 'Learning' }}</p>
           </div>
 
+          <div class="review-section">
+            <h4>Review this card</h4>
+            <div class="review-buttons">
+              <button
+                type="button"
+                class="correct"
+                [disabled]="isReviewing()"
+                (click)="reviewSelectedCard(true)"
+              >
+                {{ isReviewing() ? 'Reviewing...' : 'Correct' }}
+              </button>
+              <button
+                type="button"
+                class="incorrect"
+                [disabled]="isReviewing()"
+                (click)="reviewSelectedCard(false)"
+              >
+                {{ isReviewing() ? 'Reviewing...' : 'Incorrect' }}
+              </button>
+            </div>
+          </div>
+
           <div class="actions">
             <button type="submit" [disabled]="isUpdating()">
               {{ isUpdating() ? 'Saving...' : 'Save changes' }}

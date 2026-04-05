@@ -25,6 +25,7 @@ export class CardsPageComponent implements OnInit {
   readonly detailErrorMessage = signal<string | null>(null);
   readonly tagSearch = signal('');
   readonly filterMode = signal<'all' | 'tags' | 'due'>('all');
+  readonly isReviewing = signal(false);
 
   readonly createCardForm = this.formBuilder.nonNullable.group({
     question: ['', [Validators.required]],
@@ -206,6 +207,32 @@ export class CardsPageComponent implements OnInit {
         },
         error: () => {
           this.detailErrorMessage.set('Unable to delete this card.');
+        },
+      });
+  }
+
+  reviewSelectedCard(isCorrect: boolean): void {
+    const selectedCard = this.selectedCard();
+
+    if (!selectedCard) {
+      return;
+    }
+
+    this.isReviewing.set(true);
+    this.detailErrorMessage.set(null);
+
+    this.cardsApiService
+      .review(selectedCard.id, isCorrect, new Date().toISOString())
+      .pipe(finalize(() => this.isReviewing.set(false)))
+      .subscribe({
+        next: (updatedCard) => {
+          this.selectedCard.set(updatedCard);
+          this.cards.update((cards) =>
+            cards.map((card) => (card.id === updatedCard.id ? updatedCard : card)),
+          );
+        },
+        error: () => {
+          this.detailErrorMessage.set('Unable to review this card.');
         },
       });
   }
