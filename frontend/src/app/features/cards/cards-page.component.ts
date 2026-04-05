@@ -27,11 +27,13 @@ export class CardsPageComponent implements OnInit {
   readonly createCardForm = this.formBuilder.nonNullable.group({
     question: ['', [Validators.required]],
     answer: ['', [Validators.required]],
+    tag: [''],
   });
 
   readonly editCardForm = this.formBuilder.nonNullable.group({
     question: ['', [Validators.required]],
     answer: ['', [Validators.required]],
+    tag: [''],
   });
 
   ngOnInit(): void {
@@ -47,18 +49,21 @@ export class CardsPageComponent implements OnInit {
     this.isSubmitting.set(true);
     this.errorMessage.set(null);
 
+    const createValue = this.createCardForm.getRawValue();
+
     this.cardsApiService
       .create({
         ownerId: this.ownerId,
-        question: this.createCardForm.getRawValue().question,
-        answer: this.createCardForm.getRawValue().answer,
+        question: createValue.question,
+        answer: createValue.answer,
+        tag: createValue.tag,
       })
       .pipe(finalize(() => this.isSubmitting.set(false)))
       .subscribe({
         next: (card) => {
           this.cards.update((cards) => [card, ...cards]);
           this.selectCard(card.id);
-          this.createCardForm.reset();
+          this.createCardForm.reset({ question: '', answer: '', tag: '' });
         },
         error: () => {
           this.errorMessage.set('Unable to create the card right now.');
@@ -91,6 +96,7 @@ export class CardsPageComponent implements OnInit {
         this.editCardForm.setValue({
           question: card.question,
           answer: card.answer,
+          tag: card.tag ?? '',
         });
       },
       error: () => {
@@ -110,8 +116,14 @@ export class CardsPageComponent implements OnInit {
     this.isUpdating.set(true);
     this.detailErrorMessage.set(null);
 
+    const editValue = this.editCardForm.getRawValue();
+
     this.cardsApiService
-      .update(selectedCard.id, this.editCardForm.getRawValue())
+      .update(selectedCard.id, {
+        question: editValue.question,
+        answer: editValue.answer,
+        tag: editValue.tag,
+      })
       .pipe(finalize(() => this.isUpdating.set(false)))
       .subscribe({
         next: (updatedCard) => {
@@ -143,7 +155,7 @@ export class CardsPageComponent implements OnInit {
         next: () => {
           this.cards.update((cards) => cards.filter((card) => card.id !== selectedCard.id));
           this.selectedCard.set(null);
-          this.editCardForm.reset();
+          this.editCardForm.reset({ question: '', answer: '', tag: '' });
         },
         error: () => {
           this.detailErrorMessage.set('Unable to delete this card.');

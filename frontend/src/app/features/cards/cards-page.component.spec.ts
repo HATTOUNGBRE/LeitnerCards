@@ -85,6 +85,7 @@ describe('CardsPageComponent', () => {
     fixture.componentInstance.createCardForm.setValue({
       question: 'New question',
       answer: 'New answer',
+      tag: 'math',
     });
 
     fixture.componentInstance.submit();
@@ -94,6 +95,7 @@ describe('CardsPageComponent', () => {
       ownerId: 'user-1',
       question: 'New question',
       answer: 'New answer',
+      tag: 'math',
     });
   });
 
@@ -125,6 +127,7 @@ describe('CardsPageComponent', () => {
     fixture.componentInstance.editCardForm.setValue({
       question: 'Updated question',
       answer: 'Updated answer',
+      tag: 'updated-tag',
     });
 
     fixture.componentInstance.saveSelectedCard();
@@ -133,6 +136,7 @@ describe('CardsPageComponent', () => {
     expect(apiService.update).toHaveBeenCalledWith('card-1', {
       question: 'Updated question',
       answer: 'Updated answer',
+      tag: 'updated-tag',
     });
     expect(fixture.componentInstance.selectedCard()?.question).toBe('Updated question');
   });

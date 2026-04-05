@@ -21,6 +21,11 @@
         <textarea rows="5" formControlName="answer" placeholder="Write the expected answer"></textarea>
       </label>
 
+      <label>
+        <span>Tag</span>
+        <input type="text" formControlName="tag" placeholder="Optional tag" />
+      </label>
+
       <button type="submit" [disabled]="isSubmitting()">
         {{ isSubmitting() ? 'Saving...' : 'Create card' }}
       </button>
@@ -53,6 +58,7 @@
                 </div>
                 <h3>{{ card.question }}</h3>
                 <p>{{ card.answer }}</p>
+                <p *ngIf="card.tag" class="card-tag">Tag: {{ card.tag }}</p>
               </button>
             </li>
           }
@@ -82,6 +88,18 @@
             <span>Answer</span>
             <textarea rows="5" formControlName="answer"></textarea>
           </label>
+
+          <label>
+            <span>Tag</span>
+            <input type="text" formControlName="tag" placeholder="Optional tag" />
+          </label>
+
+          <div class="card-status">
+            <p *ngIf="selectedCard()?.tag">Tag: {{ selectedCard()?.tag }}</p>
+            <p>Category: {{ selectedCard()?.category }}</p>
+            <p>Next review: {{ selectedCard()?.nextReviewAt | date: 'mediumDate' }}</p>
+            <p>Status: {{ selectedCard()?.learned ? 'Learned' : 'Learning' }}</p>
+          </div>
 
           <div class="actions">
             <button type="submit" [disabled]="isUpdating()">

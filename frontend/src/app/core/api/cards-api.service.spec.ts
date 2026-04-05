@@ -99,6 +99,52 @@ describe('CardsApiService', () => {
     });
   });
 
+  it('requests cards by tags', () => {
+    service.findByTags(['math', 'science']).subscribe();
+
+    const request = httpTestingController.expectOne(
+      'http://localhost:3000/cards/tags?tags=math&tags=science',
+    );
+
+    expect(request.request.method).toBe('GET');
+    request.flush([]);
+  });
+
+  it('requests due cards by owner', () => {
+    service.listDueByOwner('user-1', '2026-04-05T00:00:00.000Z').subscribe();
+
+    const request = httpTestingController.expectOne(
+      'http://localhost:3000/cards/due?ownerId=user-1&referenceDate=2026-04-05T00:00:00.000Z',
+    );
+
+    expect(request.request.method).toBe('GET');
+    request.flush([]);
+  });
+
+  it('reviews a card', () => {
+    service.review('card-1', true, '2026-04-05T00:00:00.000Z').subscribe();
+
+    const request = httpTestingController.expectOne(
+      'http://localhost:3000/cards/card-1/review',
+    );
+
+    expect(request.request.method).toBe('POST');
+    expect(request.request.body).toEqual({
+      isValid: true,
+      referenceDate: '2026-04-05T00:00:00.000Z',
+    });
+    request.flush({
+      id: 'card-1',
+      ownerId: 'user-1',
+      question: 'Question',
+      answer: 'Answer',
+      category: 1,
+      createdAt: '2026-04-05T10:00:00.000Z',
+      nextReviewAt: '2026-04-06T00:00:00.000Z',
+      learned: false,
+    });
+  });
+
   it('deletes a card', () => {
     service.delete('card-1').subscribe();
 
