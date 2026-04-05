@@ -12,13 +12,14 @@ const app_controller_1 = require("./app.controller");
 const app_service_1 = require("./app.service");
 const cards_module_1 = require("./cards/cards.module");
 const users_module_1 = require("./users/users.module");
-const authentication_module_1 = require("./authentication/authentication.module");
+const auth_module_1 = require("./auth/auth.module");
+const config_1 = require("@nestjs/config");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [users_module_1.UsersModule, authentication_module_1.AuthenticationModule, cards_module_1.CardsModule],
+        imports: [users_module_1.UsersModule, cards_module_1.CardsModule, auth_module_1.AuthModule, config_1.ConfigModule.forRoot({ isGlobal: true })],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],
     })
