@@ -26,7 +26,7 @@ export type UpdateCardPayload = {
 })
 export class CardsApiService {
   private readonly httpClient = inject(HttpClient);
-  private readonly baseUrl = 'http://localhost:3000/cards';
+  private readonly baseUrl = 'http://localhost:8080/cards';
 
   listByOwner(ownerId: string) {
     const params = new HttpParams().set('ownerId', ownerId);

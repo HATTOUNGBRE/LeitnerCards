@@ -1,5 +1,5 @@
 import { Card } from '../domain/card';
-export declare const CARD_REPOSITORY: any;
+export declare const CARD_REPOSITORY: unique symbol;
 export interface CardRepository {
     save(card: Card): Promise<void>;
     findById(id: string): Promise<Card | null>;
