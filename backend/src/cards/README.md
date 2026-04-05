@@ -13,3 +13,5 @@ Etat actuel :
 - validations de creation
 - categorie initiale du systeme de Leitner fixee a 1
 - port `CardRepository` pour preparer la persistance
+- use case `CreateCardUseCase`
+- port `CardIdGenerator` pour externaliser la generation d'identifiant
