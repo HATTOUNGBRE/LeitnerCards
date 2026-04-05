@@ -8,6 +8,11 @@
     <nav class="navigation">
       <a routerLink="/cards" routerLinkActive="active">Cards</a>
     </nav>
+    <button
+    (click)="logout()"
+    class="text-sm text-gray-500 hover:text-red-500 transition">
+    Déconnexion
+  </button>
   </header>
 
   <router-outlet />
