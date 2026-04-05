@@ -39,6 +39,28 @@
         <span class="count">{{ cards().length }}</span>
       </div>
 
+      <div class="filter-actions">
+        <label>
+          <span>Tag filter</span>
+          <input
+            type="text"
+            [value]="tagSearch()"
+            (input)="tagSearch.set($any($event.target).value)"
+            placeholder="math, science"
+          />
+        </label>
+        <button type="button" (click)="searchByTag()">Search tags</button>
+        <button type="button" (click)="loadDueCards()">Show due cards</button>
+        <button type="button" (click)="loadCards()">Show all</button>
+      </div>
+
+      <p class="filter-info" *ngIf="filterMode() === 'tags'">
+        Filtering by tags: {{ tagSearch() || 'none' }}
+      </p>
+      <p class="filter-info" *ngIf="filterMode() === 'due'">
+        Showing cards due for review
+      </p>
+
       @if (errorMessage()) {
         <p class="feedback error">{{ errorMessage() }}</p>
       }

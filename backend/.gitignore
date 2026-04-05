@@ -22,3 +22,9 @@ lerna-debug.log*
 # temp directory
 .temp
 .tmp
+
+# Coverage directory used by tools like istanbul
+coverage/
+
+# NestJS
+.nestjs-cli-cache

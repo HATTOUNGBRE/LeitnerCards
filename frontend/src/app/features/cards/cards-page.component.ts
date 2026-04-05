@@ -23,6 +23,8 @@ export class CardsPageComponent implements OnInit {
   readonly isDeleting = signal(false);
   readonly errorMessage = signal<string | null>(null);
   readonly detailErrorMessage = signal<string | null>(null);
+  readonly tagSearch = signal('');
+  readonly filterMode = signal<'all' | 'tags' | 'due'>('all');
 
   readonly createCardForm = this.formBuilder.nonNullable.group({
     question: ['', [Validators.required]],
@@ -71,9 +73,10 @@ export class CardsPageComponent implements OnInit {
       });
   }
 
-  private loadCards(): void {
+  loadCards(): void {
     this.isLoading.set(true);
     this.errorMessage.set(null);
+    this.filterMode.set('all');
 
     this.cardsApiService
       .listByOwner(this.ownerId)
@@ -83,6 +86,50 @@ export class CardsPageComponent implements OnInit {
         error: () => {
           this.cards.set([]);
           this.errorMessage.set('Unable to load cards right now.');
+        },
+      });
+  }
+
+  searchByTag(): void {
+    const tags = this.tagSearch()
+      .split(',')
+      .map((tag) => tag.trim())
+      .filter(Boolean);
+
+    if (!tags.length) {
+      this.loadCards();
+      return;
+    }
+
+    this.isLoading.set(true);
+    this.errorMessage.set(null);
+    this.filterMode.set('tags');
+
+    this.cardsApiService
+      .findByTags(tags)
+      .pipe(finalize(() => this.isLoading.set(false)))
+      .subscribe({
+        next: (cards) => this.cards.set(cards),
+        error: () => {
+          this.cards.set([]);
+          this.errorMessage.set('Unable to load cards by tag right now.');
+        },
+      });
+  }
+
+  loadDueCards(): void {
+    this.isLoading.set(true);
+    this.errorMessage.set(null);
+    this.filterMode.set('due');
+
+    this.cardsApiService
+      .listDueByOwner(this.ownerId, new Date().toISOString())
+      .pipe(finalize(() => this.isLoading.set(false)))
+      .subscribe({
+        next: (cards) => this.cards.set(cards),
+        error: () => {
+          this.cards.set([]);
+          this.errorMessage.set('Unable to load due cards right now.');
         },
       });
   }
