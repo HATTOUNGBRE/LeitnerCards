@@ -18,8 +18,11 @@ describe('Card', () => {
       ownerId: 'user-1',
       question: 'What is SOLID?',
       answer: 'Five object-oriented design principles.',
+      tag: undefined,
       category: INITIAL_CARD_CATEGORY,
       createdAt,
+      nextReviewAt: expect.any(Date),
+      learned: false,
     });
   });
 
@@ -54,8 +57,11 @@ describe('Card', () => {
       ownerId: 'user-1',
       question: 'What is hexagonal architecture?',
       answer: 'An architecture based on ports and adapters.',
+      tag: undefined,
       category: 4,
       createdAt,
+      nextReviewAt: expect.any(Date),
+      learned: false,
     });
   });
 
@@ -68,8 +74,65 @@ describe('Card', () => {
         answer: 'Answer',
         category: 8 as never,
         createdAt: new Date('2026-04-05T10:00:00.000Z'),
+        nextReviewAt: new Date('2026-04-05T00:00:00.000Z'),
+        learned: false,
       }),
     ).toThrow(new InvalidCardDataError('Card category must be between 1 and 7.'));
+  });
+
+  it('stores the tag when provided', () => {
+    const card = Card.create({
+      id: 'card-3',
+      ownerId: 'user-1',
+      question: 'What is TDD?',
+      answer: 'Test-Driven Development.',
+      tag: 'Development',
+    });
+
+    expect(card.tag).toBe('Development');
+    expect(card.toSnapshot().tag).toBe('Development');
+  });
+
+  it('moves card back to category 1 after incorrect answer', () => {
+    const card = Card.create({
+      id: 'card-4',
+      ownerId: 'user-1',
+      question: 'What is a tag?',
+      answer: 'A keyword for grouping cards.',
+      createdAt: new Date('2026-04-01T10:00:00.000Z'),
+    });
+
+    const updatedCard = card.applyAnswer(false, new Date('2026-04-02T10:00:00.000Z'));
+
+    expect(updatedCard.category).toBe(INITIAL_CARD_CATEGORY);
+    expect(updatedCard.nextReviewAt.toISOString()).toBe('2026-04-02T00:00:00.000Z');
+  });
+
+  it('increments category and schedules next review after correct answer', () => {
+    const card = Card.create({
+      id: 'card-5',
+      ownerId: 'user-1',
+      question: 'What is SOLID?',
+      answer: 'Five object-oriented design principles.',
+      createdAt: new Date('2026-04-01T10:00:00.000Z'),
+    });
+
+    const updatedCard = card.applyAnswer(true, new Date('2026-04-01T10:00:00.000Z'));
+
+    expect(updatedCard.category).toBe(2);
+    expect(updatedCard.nextReviewAt.toISOString()).toBe('2026-04-03T00:00:00.000Z');
+  });
+
+  it('identifies a card as due on its review date', () => {
+    const card = Card.create({
+      id: 'card-6',
+      ownerId: 'user-1',
+      question: 'What is DDD?',
+      answer: 'Domain-Driven Design.',
+      createdAt: new Date('2026-04-01T10:00:00.000Z'),
+    });
+
+    expect(card.isDueOn(new Date('2026-04-01T12:00:00.000Z'))).toBe(true);
   });
 
   it.each([

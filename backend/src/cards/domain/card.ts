@@ -9,6 +9,7 @@ export type CreateCardProps = {
   ownerId: string;
   question: string;
   answer: string;
+  tag?: string;
   createdAt?: Date;
 };
 
@@ -17,8 +18,21 @@ export type CardSnapshot = {
   ownerId: string;
   question: string;
   answer: string;
+  tag?: string;
   category: CardCategory;
   createdAt: Date;
+  nextReviewAt: Date;
+  learned: boolean;
+};
+
+const REVIEW_INTERVALS: Record<CardCategory, number> = {
+  1: 1,
+  2: 2,
+  3: 4,
+  4: 8,
+  5: 16,
+  6: 32,
+  7: 64,
 };
 
 export class Card {
@@ -38,14 +52,19 @@ export class Card {
       props.answer,
       'Card answer is required.',
     );
+    const createdAt = props.createdAt ?? new Date();
+    const tag = Card.normalizeOptionalField(props.tag);
 
     return new Card({
       id,
       ownerId,
       question,
       answer,
+      tag,
       category: INITIAL_CARD_CATEGORY,
-      createdAt: props.createdAt ?? new Date(),
+      createdAt,
+      nextReviewAt: Card.startOfDay(createdAt),
+      learned: false,
     });
   }
 
@@ -73,8 +92,11 @@ export class Card {
       ownerId,
       question,
       answer,
+      tag: Card.normalizeOptionalField(snapshot.tag),
       category: snapshot.category,
       createdAt: snapshot.createdAt,
+      nextReviewAt: snapshot.nextReviewAt ?? Card.startOfDay(snapshot.createdAt),
+      learned: snapshot.learned ?? false,
     });
   }
 
@@ -94,6 +116,10 @@ export class Card {
     return this.snapshot.answer;
   }
 
+  get tag(): string | undefined {
+    return this.snapshot.tag;
+  }
+
   get category(): CardCategory {
     return this.snapshot.category;
   }
@@ -102,7 +128,15 @@ export class Card {
     return this.snapshot.createdAt;
   }
 
-  updateContent(props: { question: string; answer: string }): Card {
+  get nextReviewAt(): Date {
+    return this.snapshot.nextReviewAt;
+  }
+
+  get learned(): boolean {
+    return this.snapshot.learned;
+  }
+
+  updateContent(props: { question: string; answer: string; tag?: string }): Card {
     const question = Card.normalizeRequiredField(
       props.question,
       'Card question is required.',
@@ -111,12 +145,55 @@ export class Card {
       props.answer,
       'Card answer is required.',
     );
+    const tag = Card.normalizeOptionalField(props.tag ?? this.snapshot.tag);
 
     return new Card({
       ...this.snapshot,
       question,
       answer,
+      tag,
     });
+  }
+
+  applyAnswer(isValid: boolean, referenceDate: Date = new Date()): Card {
+    if (this.snapshot.learned) {
+      return this;
+    }
+
+    const reviewDate = Card.startOfDay(referenceDate);
+
+    if (!isValid) {
+      return new Card({
+        ...this.snapshot,
+        category: INITIAL_CARD_CATEGORY,
+        nextReviewAt: reviewDate,
+        learned: false,
+      });
+    }
+
+    const nextCategory =
+      this.snapshot.category === 7
+        ? 7
+        : (this.snapshot.category + 1) as CardCategory;
+    const learned = this.snapshot.category === 7;
+
+    return new Card({
+      ...this.snapshot,
+      category: nextCategory,
+      nextReviewAt: Card.getNextReviewDate(nextCategory, reviewDate),
+      learned,
+    });
+  }
+
+  isDueOn(referenceDate: Date): boolean {
+    if (this.snapshot.learned) {
+      return false;
+    }
+
+    return Card.isSameOrBeforeDay(
+      this.snapshot.nextReviewAt,
+      Card.startOfDay(referenceDate),
+    );
   }
 
   toSnapshot(): CardSnapshot {
@@ -135,5 +212,28 @@ export class Card {
     }
 
     return normalizedValue;
+  }
+
+  private static normalizeOptionalField(value?: string): string | undefined {
+    const normalizedValue = value?.trim();
+    return normalizedValue ? normalizedValue : undefined;
+  }
+
+  private static startOfDay(date: Date): Date {
+    return new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
+  }
+
+  private static getNextReviewDate(
+    category: CardCategory,
+    referenceDate: Date,
+  ): Date {
+    const interval = REVIEW_INTERVALS[category];
+    const nextReviewDate = new Date(referenceDate);
+    nextReviewDate.setUTCDate(nextReviewDate.getUTCDate() + interval);
+    return Card.startOfDay(nextReviewDate);
+  }
+
+  private static isSameOrBeforeDay(value: Date, reference: Date): boolean {
+    return value.getTime() <= reference.getTime();
   }
 }
