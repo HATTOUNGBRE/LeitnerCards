@@ -17,3 +17,5 @@ Etat actuel :
 - port `CardIdGenerator` pour externaliser la generation d'identifiant
 - use case `GetCardByIdUseCase`
 - use case `ListCardsByOwnerUseCase`
+- use case `UpdateCardUseCase`
+- use case `DeleteCardUseCase`

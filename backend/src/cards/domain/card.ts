@@ -102,6 +102,23 @@ export class Card {
     return this.snapshot.createdAt;
   }
 
+  updateContent(props: { question: string; answer: string }): Card {
+    const question = Card.normalizeRequiredField(
+      props.question,
+      'Card question is required.',
+    );
+    const answer = Card.normalizeRequiredField(
+      props.answer,
+      'Card answer is required.',
+    );
+
+    return new Card({
+      ...this.snapshot,
+      question,
+      answer,
+    });
+  }
+
   toSnapshot(): CardSnapshot {
     return { ...this.snapshot };
   }
