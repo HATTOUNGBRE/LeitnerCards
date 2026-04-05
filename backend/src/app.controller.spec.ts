@@ -15,8 +15,12 @@ describe('AppController', () => {
   });
 
   describe('root', () => {
-    it('should return "Hello World!"', () => {
-      expect(appController.getHello()).toBe('Hello World!');
+    it('should expose the application status', () => {
+      expect(appController.getStatus()).toEqual({
+        name: 'LeitnerCards API',
+        status: 'ready',
+        boundedContexts: ['cards'],
+      });
     });
   });
 });

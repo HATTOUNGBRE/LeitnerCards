@@ -1,0 +1,94 @@
+:host {
+  --page-bg: linear-gradient(180deg, #f7f1e8 0%, #f2ebe2 100%);
+  --panel-bg: rgba(255, 252, 247, 0.84);
+  --panel-border: rgba(78, 61, 46, 0.12);
+  --text-primary: #2e241d;
+  --text-secondary: #6a5747;
+  --accent: #b25b3c;
+  --shadow: 0 24px 60px rgba(76, 56, 42, 0.12);
+  display: block;
+  min-height: 100dvh;
+  background: var(--page-bg);
+  color: var(--text-primary);
+}
+
+.landing-page {
+  min-height: 100dvh;
+  padding: 3rem 1.5rem;
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  align-items: start;
+}
+
+.hero,
+.panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: 24px;
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(10px);
+}
+
+.hero {
+  padding: 2rem;
+  grid-column: 1 / -1;
+}
+
+.panel {
+  padding: 1.5rem;
+}
+
+.eyebrow {
+  margin: 0 0 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 0.75rem;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+h1,
+h2 {
+  margin: 0;
+  font-family: Georgia, 'Times New Roman', serif;
+}
+
+h1 {
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  line-height: 0.95;
+}
+
+h2 {
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+
+.intro {
+  max-width: 60ch;
+  margin: 1rem 0 0;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+ul {
+  margin: 0;
+  padding-left: 1.25rem;
+  color: var(--text-secondary);
+}
+
+li + li {
+  margin-top: 0.75rem;
+}
+
+@media (max-width: 640px) {
+  .landing-page {
+    padding: 1rem;
+  }
+
+  .hero,
+  .panel {
+    padding: 1.25rem;
+    border-radius: 20px;
+  }
+}
