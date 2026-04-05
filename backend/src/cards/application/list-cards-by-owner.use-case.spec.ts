@@ -11,6 +11,8 @@ describe('ListCardsByOwnerUseCase', () => {
       answer: 'Answer 1',
       category: 1,
       createdAt: new Date('2026-04-01T10:00:00.000Z'),
+      nextReviewAt: new Date('2026-04-01T00:00:00.000Z'),
+      learned: false,
     });
     const secondCard = Card.rehydrate({
       id: 'card-2',
@@ -19,6 +21,8 @@ describe('ListCardsByOwnerUseCase', () => {
       answer: 'Answer 2',
       category: 3,
       createdAt: new Date('2026-04-02T10:00:00.000Z'),
+      nextReviewAt: new Date('2026-04-02T00:00:00.000Z'),
+      learned: false,
     });
     const repository: CardRepository = {
       save: jest.fn(),

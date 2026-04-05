@@ -11,6 +11,8 @@ describe('ListCardsByTagsUseCase', () => {
       answer: 'Math answer',
       category: 1,
       createdAt: new Date('2026-04-01T00:00:00.000Z'),
+      nextReviewAt: new Date('2026-04-01T00:00:00.000Z'),
+      learned: false,
       tag: 'math',
     });
     const scienceCard = Card.rehydrate({
@@ -20,6 +22,8 @@ describe('ListCardsByTagsUseCase', () => {
       answer: 'Science answer',
       category: 1,
       createdAt: new Date('2026-04-01T00:00:00.000Z'),
+      nextReviewAt: new Date('2026-04-01T00:00:00.000Z'),
+      learned: false,
       tag: 'science',
     });
 

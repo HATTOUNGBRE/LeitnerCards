@@ -12,6 +12,8 @@ describe('UpdateCardUseCase', () => {
       answer: 'Old answer',
       category: 3,
       createdAt: new Date('2026-04-01T10:00:00.000Z'),
+      nextReviewAt: new Date('2026-04-01T00:00:00.000Z'),
+      learned: false,
     });
     const save = jest.fn().mockResolvedValue(undefined);
     const repository: CardRepository = {
@@ -73,6 +75,8 @@ describe('UpdateCardUseCase', () => {
       answer: 'Old answer',
       category: 2,
       createdAt: new Date('2026-04-01T10:00:00.000Z'),
+      nextReviewAt: new Date('2026-04-01T00:00:00.000Z'),
+      learned: false,
     });
     const save = jest.fn().mockResolvedValue(undefined);
     const repository: CardRepository = {

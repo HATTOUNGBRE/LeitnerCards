@@ -12,6 +12,8 @@ describe('GetCardByIdUseCase', () => {
       answer: 'Test-Driven Development.',
       category: 2,
       createdAt: new Date('2026-04-05T10:00:00.000Z'),
+      nextReviewAt: new Date('2026-04-05T00:00:00.000Z'),
+      learned: false,
     });
     const repository: CardRepository = {
       save: jest.fn(),

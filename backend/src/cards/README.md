@@ -17,9 +17,13 @@ Etat actuel :
 - port `CardIdGenerator` pour externaliser la generation d'identifiant
 - use case `GetCardByIdUseCase`
 - use case `ListCardsByOwnerUseCase`
+- use case `ListCardsByTagsUseCase`
+- use case `ListDueCardsByOwnerUseCase`
+- use case `ReviewCardUseCase`
 - use case `UpdateCardUseCase`
 - use case `DeleteCardUseCase`
 - repository en memoire `InMemoryCardRepository`
 - generateur d'identifiant `InMemoryCardIdGenerator`
 - controller HTTP `CardsController`
-- DTO HTTP pour creation et mise a jour
+- DTO HTTP pour creation, mise a jour et revue de carte
+- routes : `GET /cards/tags`, `GET /cards/due`, `POST /cards/:id/review`
