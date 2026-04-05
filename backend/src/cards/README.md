@@ -7,3 +7,8 @@ Arborescence cible :
 - `application` : cas d'usage
 - `infrastructure` : repository memoire ou persistance
 - `interfaces/http` : controleurs et DTO
+
+Etat actuel :
+- entite metier `Card`
+- validations de creation
+- categorie initiale du systeme de Leitner fixee a 1
