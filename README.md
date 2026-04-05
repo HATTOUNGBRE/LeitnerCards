@@ -1,23 +1,30 @@
 # LeitnerCards
 
-Projet de cartes d'apprentissage base sur le systeme de Leitner.
+Application de révision basée sur le système de Leitner.
 
-## Premier push
+## Présentation
 
-Ce premier push pose le socle du projet :
-- conservation des modules `auth` et `users` du reste de l'equipe
-- creation du contexte `cards`
-- remplacement des templates Angular et Nest par une base plus propre
+Ce projet se compose de deux parties :
+- `backend/` : API NestJS pour la gestion des cartes, l'authentification et les utilisateurs.
+- `frontend/` : application Angular qui consomme l'API et permet de créer, réviser et gérer des cartes.
 
-## Architecture visee
+## Fonctionnalités principales
 
-- `backend/src/cards` : futur contexte metier des fiches
-- `backend/src/authentication` et `backend/src/users` : parties conservees pour le reste de l'equipe
-- `frontend/src/app` : point d'entree de l'interface avant les ecrans de fiches
+- Authentification JWT avec utilisateurs en mémoire
+- Création, mise à jour et suppression de cartes
+- Consultation des cartes par propriétaire, tags ou date d'échéance
+- Revue d'une carte avec validation de la réponse
+- Interface Angular légère et responsive
 
-Ce push se concentre volontairement sur les fiches. Les parties auth et users restent presentes mais ne sont pas modifiees ici.
+## Utilisateurs de test
 
-## Commandes utiles
+Le backend initialise des utilisateurs en dur avec les identifiants suivants :
+
+- `test@mail.com` / `password`
+- `john@mail.com` / `password`
+- `shantal@mail.com` / `password`
+
+## Installation et exécution
 
 ### Backend
 
@@ -25,6 +32,26 @@ Ce push se concentre volontairement sur les fiches. Les parties auth et users re
 cd backend
 npm install
 npm run start:dev
+```
+
+L'API tourne par défaut sur `http://localhost:3000`.
+
+### Frontend
+
+```bash
+cd frontend
+npm install
+npm start
+```
+
+L'application frontend tourne par défaut sur `http://localhost:4200`.
+
+## Commandes de test
+
+### Backend
+
+```bash
+cd backend
 npm run test
 npm run test:e2e
 npm run test:cov
@@ -34,7 +61,14 @@ npm run test:cov
 
 ```bash
 cd frontend
-npm install
-npm start
 npm test
 ```
+
+## Endpoints importants
+
+- `POST /auth/login` : connexion utilisateur
+- `POST /cards` : création d'une carte
+- `GET /cards` : liste des cartes d'un propriétaire
+- `GET /cards/due` : liste des cartes dues pour révision
+- `PATCH /cards/:id` : mise à jour d'une carte
+- `POST /cards/:id/review` : soumission d'une réponse de révision
