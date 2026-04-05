@@ -21,3 +21,5 @@ Etat actuel :
 - use case `DeleteCardUseCase`
 - repository en memoire `InMemoryCardRepository`
 - generateur d'identifiant `InMemoryCardIdGenerator`
+- controller HTTP `CardsController`
+- DTO HTTP pour creation et mise a jour
