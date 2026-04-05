@@ -1,0 +1,59 @@
+<section class="cards-page">
+  <header class="hero">
+    <p class="eyebrow">Cards</p>
+    <h1>Manage your flashcards</h1>
+    <p class="intro">
+      This screen focuses on card creation and listing. The connected user is
+      simulated with <code>{{ ownerId }}</code> for now.
+    </p>
+  </header>
+
+  <section class="panel">
+    <h2>Create a card</h2>
+    <form [formGroup]="createCardForm" (ngSubmit)="submit()" class="card-form">
+      <label>
+        <span>Question</span>
+        <textarea rows="4" formControlName="question" placeholder="Define your question"></textarea>
+      </label>
+
+      <label>
+        <span>Answer</span>
+        <textarea rows="5" formControlName="answer" placeholder="Write the expected answer"></textarea>
+      </label>
+
+      <button type="submit" [disabled]="isSubmitting()">
+        {{ isSubmitting() ? 'Saving...' : 'Create card' }}
+      </button>
+    </form>
+  </section>
+
+  <section class="panel">
+    <div class="panel-header">
+      <h2>Your cards</h2>
+      <span class="count">{{ cards().length }}</span>
+    </div>
+
+    @if (errorMessage()) {
+      <p class="feedback error">{{ errorMessage() }}</p>
+    }
+
+    @if (isLoading()) {
+      <p class="feedback">Loading cards...</p>
+    } @else if (cards().length === 0) {
+      <p class="feedback">No cards yet. Create your first one.</p>
+    } @else {
+      <ul class="cards-list">
+        @for (card of cards(); track card.id) {
+          <li class="card-item">
+            <div class="card-meta">
+              <span>Category {{ card.category }}</span>
+              <span>{{ card.createdAt | date: 'mediumDate' }}</span>
+            </div>
+            <h3>{{ card.question }}</h3>
+            <p>{{ card.answer }}</p>
+          </li>
+        }
+      </ul>
+    }
+  </section>
+</section>

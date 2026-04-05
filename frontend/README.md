@@ -2,7 +2,9 @@
 
 Interface Angular de LeitnerCards.
 
-Le premier push remplace le template par une page d'accueil simple qui presente le socle du projet et prepare les futurs ecrans de gestion des fiches.
+L'interface contient maintenant un ecran `cards` qui permet :
+- de lister les fiches d'un utilisateur simule
+- de creer une nouvelle fiche depuis un formulaire
 
 Le perimetre de ce push reste limite a `cards`.
 

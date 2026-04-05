@@ -1,10 +1,12 @@
 import { TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
 import { App } from './app';
 
 describe('App', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [App],
+      providers: [provideRouter([])],
     }).compileComponents();
   });
 
@@ -14,17 +16,17 @@ describe('App', () => {
     expect(app).toBeTruthy();
   });
 
-  it('should render the project title', async () => {
+  it('should render the workspace title', async () => {
     const fixture = TestBed.createComponent(App);
     await fixture.whenStable();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('LeitnerCards');
+    expect(compiled.querySelector('h1')?.textContent).toContain('Flashcards workspace');
   });
 
-  it('should explain that the push focuses on cards', async () => {
+  it('should expose a cards navigation link', async () => {
     const fixture = TestBed.createComponent(App);
     await fixture.whenStable();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.textContent).toContain('fiches');
+    expect(compiled.textContent).toContain('Cards');
   });
 });

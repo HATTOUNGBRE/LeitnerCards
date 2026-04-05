@@ -1,29 +1,14 @@
-<main class="landing-page">
-  <section class="hero">
-    <p class="eyebrow">Premier push</p>
-    <h1>{{ title() }}</h1>
-    <p class="intro">
-      Le projet part maintenant sur une base propre pour implementer la gestion des
-      fiches avec une architecture lisible, testable, sans melanger les parties auth
-      et users gerees a cote.
-    </p>
-  </section>
+<main class="app-shell">
+  <header class="topbar">
+    <div>
+      <p class="eyebrow">LeitnerCards</p>
+      <h1>Flashcards workspace</h1>
+    </div>
 
-  <section class="panel">
-    <h2>Backend</h2>
-    <ul>
-      @for (highlight of backendHighlights; track highlight) {
-        <li>{{ highlight }}</li>
-      }
-    </ul>
-  </section>
+    <nav class="navigation">
+      <a routerLink="/cards" routerLinkActive="active">Cards</a>
+    </nav>
+  </header>
 
-  <section class="panel">
-    <h2>Frontend</h2>
-    <ul>
-      @for (highlight of frontendHighlights; track highlight) {
-        <li>{{ highlight }}</li>
-      }
-    </ul>
-  </section>
+  <router-outlet />
 </main>

@@ -1,94 +1,71 @@
 :host {
-  --page-bg: linear-gradient(180deg, #f7f1e8 0%, #f2ebe2 100%);
-  --panel-bg: rgba(255, 252, 247, 0.84);
-  --panel-border: rgba(78, 61, 46, 0.12);
-  --text-primary: #2e241d;
-  --text-secondary: #6a5747;
-  --accent: #b25b3c;
-  --shadow: 0 24px 60px rgba(76, 56, 42, 0.12);
   display: block;
   min-height: 100dvh;
-  background: var(--page-bg);
-  color: var(--text-primary);
+  background: linear-gradient(180deg, #f7f1e8 0%, #f2ebe2 100%);
+  color: #2e241d;
 }
 
-.landing-page {
+.app-shell {
   min-height: 100dvh;
-  padding: 3rem 1.5rem;
+  padding: 1.5rem;
   display: grid;
   gap: 1.5rem;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  align-items: start;
 }
 
-.hero,
-.panel {
-  background: var(--panel-bg);
-  border: 1px solid var(--panel-border);
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 1rem;
+  background: rgba(255, 252, 247, 0.84);
+  border: 1px solid rgba(78, 61, 46, 0.12);
   border-radius: 24px;
-  box-shadow: var(--shadow);
-  backdrop-filter: blur(10px);
-}
-
-.hero {
-  padding: 2rem;
-  grid-column: 1 / -1;
-}
-
-.panel {
   padding: 1.5rem;
+  box-shadow: 0 24px 60px rgba(76, 56, 42, 0.08);
 }
 
 .eyebrow {
-  margin: 0 0 0.75rem;
+  margin: 0 0 0.5rem;
   text-transform: uppercase;
   letter-spacing: 0.2em;
   font-size: 0.75rem;
-  color: var(--accent);
+  color: #b25b3c;
   font-weight: 700;
 }
 
-h1,
-h2 {
+h1 {
   margin: 0;
+  font-size: clamp(2rem, 4vw, 3rem);
+  line-height: 1;
   font-family: Georgia, 'Times New Roman', serif;
 }
 
-h1 {
-  font-size: clamp(2.5rem, 5vw, 4.5rem);
-  line-height: 0.95;
+.navigation {
+  display: flex;
+  gap: 0.75rem;
 }
 
-h2 {
-  margin-bottom: 1rem;
-  font-size: 1.5rem;
+.navigation a {
+  padding: 0.75rem 1rem;
+  border-radius: 999px;
+  color: #6a5747;
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(78, 61, 46, 0.1);
 }
 
-.intro {
-  max-width: 60ch;
-  margin: 1rem 0 0;
-  color: var(--text-secondary);
-  line-height: 1.6;
-}
-
-ul {
-  margin: 0;
-  padding-left: 1.25rem;
-  color: var(--text-secondary);
-}
-
-li + li {
-  margin-top: 0.75rem;
+.navigation a.active {
+  color: white;
+  background: linear-gradient(135deg, #b25b3c 0%, #8754b8 100%);
 }
 
 @media (max-width: 640px) {
-  .landing-page {
+  .app-shell {
     padding: 1rem;
   }
 
-  .hero,
-  .panel {
-    padding: 1.25rem;
-    border-radius: 20px;
+  .topbar {
+    align-items: start;
+    flex-direction: column;
   }
 }
