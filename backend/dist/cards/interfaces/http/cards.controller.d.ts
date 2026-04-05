@@ -13,7 +13,7 @@ export declare class CardsController {
     private readonly deleteCardUseCase;
     constructor(createCardUseCase: CreateCardUseCase, getCardByIdUseCase: GetCardByIdUseCase, listCardsByOwnerUseCase: ListCardsByOwnerUseCase, updateCardUseCase: UpdateCardUseCase, deleteCardUseCase: DeleteCardUseCase);
     create(dto: CreateCardDto): Promise<import("../../domain/card").CardSnapshot>;
-    findByOwner(ownerId: string): Promise<{}>;
+    findByOwner(ownerId: string): Promise<import("../../domain/card").CardSnapshot[]>;
     findById(id: string): Promise<import("../../domain/card").CardSnapshot>;
     update(id: string, dto: UpdateCardDto): Promise<import("../../domain/card").CardSnapshot>;
     remove(id: string): Promise<void>;

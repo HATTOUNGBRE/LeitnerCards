@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from '@nestjs/common';
 import { CreateCardUseCase } from '../../application/create-card.use-case';
 import { DeleteCardUseCase } from '../../application/delete-card.use-case';
 import { GetCardByIdUseCase } from '../../application/get-card-by-id.use-case';
@@ -6,7 +6,9 @@ import { ListCardsByOwnerUseCase } from '../../application/list-cards-by-owner.u
 import { UpdateCardUseCase } from '../../application/update-card.use-case';
 import { CreateCardDto } from './dto/create-card.dto';
 import { UpdateCardDto } from './dto/update-card.dto';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
+//@UseGuards(JwtAuthGuard)
 @Controller('cards')
 export class CardsController {
   constructor(
