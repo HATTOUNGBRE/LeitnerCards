@@ -39,6 +39,9 @@ describe('UpdateCardUseCase', () => {
       answer: 'Updated answer',
       category: 3,
       createdAt: new Date('2026-04-01T10:00:00.000Z'),
+      nextReviewAt: expect.any(Date),
+      learned: false,
+      tag: undefined,
     });
     expect(result).toEqual(savedCard.toSnapshot());
   });

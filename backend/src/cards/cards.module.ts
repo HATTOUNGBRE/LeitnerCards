@@ -5,6 +5,9 @@ import { CreateCardUseCase } from './application/create-card.use-case';
 import { DeleteCardUseCase } from './application/delete-card.use-case';
 import { GetCardByIdUseCase } from './application/get-card-by-id.use-case';
 import { ListCardsByOwnerUseCase } from './application/list-cards-by-owner.use-case';
+import { ListCardsByTagsUseCase } from './application/list-cards-by-tags.use-case';
+import { ListDueCardsByOwnerUseCase } from './application/list-due-cards-by-owner.use-case';
+import { ReviewCardUseCase } from './application/review-card.use-case';
 import { UpdateCardUseCase } from './application/update-card.use-case';
 import { InMemoryCardIdGenerator } from './infrastructure/identifiers/in-memory-card-id-generator';
 import { InMemoryCardRepository } from './infrastructure/persistence/in-memory-card.repository';
@@ -36,6 +39,21 @@ import { CardsController } from './interfaces/http/cards.controller';
       provide: ListCardsByOwnerUseCase,
       inject: [CARD_REPOSITORY],
       useFactory: (cardRepository) => new ListCardsByOwnerUseCase(cardRepository),
+    },
+    {
+      provide: ListCardsByTagsUseCase,
+      inject: [CARD_REPOSITORY],
+      useFactory: (cardRepository) => new ListCardsByTagsUseCase(cardRepository),
+    },
+    {
+      provide: ListDueCardsByOwnerUseCase,
+      inject: [CARD_REPOSITORY],
+      useFactory: (cardRepository) => new ListDueCardsByOwnerUseCase(cardRepository),
+    },
+    {
+      provide: ReviewCardUseCase,
+      inject: [CARD_REPOSITORY],
+      useFactory: (cardRepository) => new ReviewCardUseCase(cardRepository),
     },
     {
       provide: UpdateCardUseCase,

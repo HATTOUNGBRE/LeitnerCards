@@ -33,6 +33,9 @@ describe('CreateCardUseCase', () => {
       answer: 'A layered architecture with boundaries.',
       category: 1,
       createdAt: expect.any(Date),
+      nextReviewAt: expect.any(Date),
+      learned: false,
+      tag: undefined,
     });
     expect(result).toEqual({
       id: 'card-123',
@@ -41,6 +44,9 @@ describe('CreateCardUseCase', () => {
       answer: 'A layered architecture with boundaries.',
       category: 1,
       createdAt: expect.any(Date),
+      nextReviewAt: expect.any(Date),
+      learned: false,
+      tag: undefined,
     });
   });
 
