@@ -12,3 +12,4 @@ Etat actuel :
 - entite metier `Card`
 - validations de creation
 - categorie initiale du systeme de Leitner fixee a 1
+- port `CardRepository` pour preparer la persistance

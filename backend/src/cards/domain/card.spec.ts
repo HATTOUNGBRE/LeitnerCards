@@ -37,6 +37,41 @@ describe('Card', () => {
     expect(card.answer).toBe('Domain-Driven Design.');
   });
 
+  it('rehydrates an existing card with its persisted category', () => {
+    const createdAt = new Date('2026-04-01T10:00:00.000Z');
+
+    const card = Card.rehydrate({
+      id: 'card-42',
+      ownerId: 'user-1',
+      question: 'What is hexagonal architecture?',
+      answer: 'An architecture based on ports and adapters.',
+      category: 4,
+      createdAt,
+    });
+
+    expect(card.toSnapshot()).toEqual({
+      id: 'card-42',
+      ownerId: 'user-1',
+      question: 'What is hexagonal architecture?',
+      answer: 'An architecture based on ports and adapters.',
+      category: 4,
+      createdAt,
+    });
+  });
+
+  it('rejects an invalid category during rehydration', () => {
+    expect(() =>
+      Card.rehydrate({
+        id: 'card-1',
+        ownerId: 'user-1',
+        question: 'Question',
+        answer: 'Answer',
+        category: 8 as never,
+        createdAt: new Date('2026-04-05T10:00:00.000Z'),
+      }),
+    ).toThrow(new InvalidCardDataError('Card category must be between 1 and 7.'));
+  });
+
   it.each([
     {
       label: 'id',

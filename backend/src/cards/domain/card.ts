@@ -49,6 +49,35 @@ export class Card {
     });
   }
 
+  static rehydrate(snapshot: CardSnapshot): Card {
+    const id = Card.normalizeRequiredField(snapshot.id, 'Card id is required.');
+    const ownerId = Card.normalizeRequiredField(
+      snapshot.ownerId,
+      'Card owner id is required.',
+    );
+    const question = Card.normalizeRequiredField(
+      snapshot.question,
+      'Card question is required.',
+    );
+    const answer = Card.normalizeRequiredField(
+      snapshot.answer,
+      'Card answer is required.',
+    );
+
+    if (!Card.isValidCategory(snapshot.category)) {
+      throw new InvalidCardDataError('Card category must be between 1 and 7.');
+    }
+
+    return new Card({
+      id,
+      ownerId,
+      question,
+      answer,
+      category: snapshot.category,
+      createdAt: snapshot.createdAt,
+    });
+  }
+
   get id(): string {
     return this.snapshot.id;
   }
@@ -75,6 +104,10 @@ export class Card {
 
   toSnapshot(): CardSnapshot {
     return { ...this.snapshot };
+  }
+
+  private static isValidCategory(category: number): category is CardCategory {
+    return Number.isInteger(category) && category >= 1 && category <= 7;
   }
 
   private static normalizeRequiredField(value: string, message: string): string {
